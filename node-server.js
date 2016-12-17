@@ -15,11 +15,9 @@ app.use(bodyParser.json());
 // call routes.js that manage controllers
 require('./routes')(app);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+//let front end hanlde everything including routing
+app.all('/*', function(req, res, next) {
+    res.sendFile('client/index.html', { root: __dirname });
 });
 
 // error handlers

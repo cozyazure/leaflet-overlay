@@ -3,5 +3,5 @@
 var api = require('./controllers/api_controller');
 
 module.exports = (app) => {
-  app.use('/api',api);
+    app.use('/api', api);
 };

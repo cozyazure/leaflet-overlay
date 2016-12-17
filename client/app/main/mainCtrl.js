@@ -1,6 +1,7 @@
 (()=>{
+    'use strict';
     angular.module('leaflet-overlay')
-        .controller('mainCtrl',['$scope',($scope)=>{
-            $scope.testing = "Hello World";
+        .controller('mainCtrl',['$scope',function($scope){
+            
         }])
 })();
