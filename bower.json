@@ -1,0 +1,16 @@
+{
+  "name": "leaflet-overlay",
+  "description": "An experimental project to overlay an image on leaflet and interact with it",
+  "authors": [
+    "Joshua Foo Fang Hau"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/cozyazure/leaflet-overlay",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
