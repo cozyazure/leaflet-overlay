@@ -1,0 +1,39 @@
+{
+    "name": "leaflet-overlay",
+    "version": "1.0.0",
+    "description": "An experimental project to overlay an image on leaflet and interact with it",
+    "main": "index.js",
+    "scripts": {
+        "start": "forever --watchDirectory . bin/www",
+        "dev": "nodemon -w . ./bin/www",
+        "test": "mocha"
+    },
+    "engines": {
+        "node": "6.9.1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/cozyazure/leaflet-overlay.git"
+    },
+    "author": "Joshua Foo Fang Hau",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/cozyazure/leaflet-overlay/issues"
+    },
+    "homepage": "https://github.com/cozyazure/leaflet-overlay#readme",
+    "dependencies": {
+        "bluebird": "^3.4.6",
+        "body-parser": "^1.15.2",
+        "ejs": "^2.5.5",
+        "express": "^4.14.0",
+        "forever": "^0.15.3",
+        "mocha": "^3.2.0",
+        "moment": "^2.17.1",
+        "pg-promise": "^5.4.7",
+        "should": "^11.1.2",
+        "supertest": "^2.0.1"
+    },
+    "devDependencies": {
+        "nodemon": "^1.11.0"
+    }
+}
