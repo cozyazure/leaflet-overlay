@@ -3,10 +3,11 @@ const path = require('path');
 const app = express();
 const bodyParser = require('body-parser');
 
+app.set('views', path.join(__dirname, 'client'));
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
 
 app.use(express.static('./client')); 	
-
-
 //set up 
 app.use(bodyParser.urlencoded({'extended': 'true'})); // parse application/x-www-form-urlencoded
 app.use(bodyParser.json());
@@ -27,7 +28,7 @@ app.use(function(req, res, next) {
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
         res.status(err.status || 500);
-        res.render('error', {
+        res.render('server-error', {
             message: err.message,
             error: err
         });
@@ -38,7 +39,7 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
     res.status(err.status || 500);
-    res.render('error', {
+    res.render('server-error', {
         message: err.message,
         error: {}
     });

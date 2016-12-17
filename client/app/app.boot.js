@@ -1,3 +1,3 @@
 (()=>{
-    angular.module('leaflet-overlay',['ui.router'])
+    angular.module('leaflet-overlay',['ui.bootstrap','ui.router'])
 })();
