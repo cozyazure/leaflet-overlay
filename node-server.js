@@ -3,12 +3,12 @@ const path = require('path');
 const app = express();
 const bodyParser = require('body-parser');
 
-//set up the view engine using ejs
-app.set('views', path.join(__dirname, 'views'));
-app.engine('html', require('ejs').renderFile);
-app.set('view engine', 'html');
+
+app.use(express.static('./client')); 	
+
 
 //set up 
+app.use(bodyParser.urlencoded({'extended': 'true'})); // parse application/x-www-form-urlencoded
 app.use(bodyParser.json());
 
 // call routes.js that manage controllers
