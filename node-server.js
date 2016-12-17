@@ -4,7 +4,7 @@ const app = express();
 const bodyParser = require('body-parser');
 
 
-app.use(express.static(__dirname + '/public')); 	
+app.use(express.static('./client')); 	
 
 
 //set up 

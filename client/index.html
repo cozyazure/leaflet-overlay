@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="leaflet-overlay">
 
 <head>
-
+    <link rel="stylesheet" href="lib/bootstrap-css-only/css/bootstrap.css">
+	<script src="lib/angular/angular.js"></script>
+	<script src="js/boot_client.js"></script>
+	<script src="js/mainCtrl.js"></script>
 </head>
 
-<body>
+<body ng-controller="mainCtrl">
     <h1>This is public index.html</h1>
+    {{testing}}
 </body>
 
 </html>
