@@ -18,6 +18,10 @@ $ cd leaflet-overlay
 ```bash
 $ npm install
 ```
+### Install the bower modules
+```bash
+$ bower install
+```
 
 ### Run the server in development mode
 ```bash
