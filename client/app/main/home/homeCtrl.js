@@ -2,38 +2,36 @@
     'use strict';
     angular.module('leaflet-overlay')
         .controller('homeCtrl', ["$scope", "$log", "leafletData", "leafletBoundsHelpers", function($scope, $log, leafletData, leafletBoundsHelpers) {
-            var maxBounds = leafletBoundsHelpers.createBoundsFromArray([
-                [-540, -960],
-                [540, 960]
-            ]);
             angular.extend($scope, {
-                defaults: {
-                    scrollWheelZoom: false,
-                    crs: 'Simple',
-                    maxZoom: 2
+                berlin: {
+                    lat: 52.52,
+                    lng: 13.40,
+                    zoom: 14
                 },
-                center: {
-                    lat: 0,
-                    lng: 0,
-                    zoom: 0
+                markers: {
+                    m1: {
+                        lat: 52.52,
+                        lng: 13.40
+                    }
                 },
-                maxBounds: maxBounds,
                 layers: {
                     baselayers: {
-                        andes: {
-                            name: 'Andes',
-                            type: 'imageOverlay',
-                            url: 'image/test.jpg',
-                            bounds: [
-                                [-540, -960],
-                                [540, 960]
-                            ],
-                            layerParams: {
-                                noWrap: true,
-                                attribution: 'Creative Commons image found <a href="http://www.flickr.com/photos/c32/8025422440/">here</a>'
-                            }
+                        googleTerrain: {
+                            name: 'Google Terrain',
+                            layerType: 'TERRAIN',
+                            type: 'google'
+                        },
+                        googleHybrid: {
+                            name: 'Google Hybrid',
+                            layerType: 'HYBRID',
+                            type: 'google'
+                        },
+                        googleRoadmap: {
+                            name: 'Google Streets',
+                            layerType: 'ROADMAP',
+                            type: 'google'
                         }
-                    },
+                    }
                 }
             });
         }])
