@@ -1,0 +1,11 @@
+{
+  "restartable": "rs",
+  "ignore": [
+    ".git",
+    "node_modules/**/node_modules"
+  ],
+  "verbose": true,
+  "events": {
+    "start" : "sass --watch client/stylesheets/style.scss:client/stylesheets/style.css"
+  }
+}

@@ -1,0 +1,13 @@
+.navbar {
+  margin-bottom: 0 !important; }
+
+html, body {
+  height: 100%; }
+
+.main-content {
+  height: calc(100% - 52px); }
+
+.mapcontainer {
+  height: 100%; }
+
+/*# sourceMappingURL=style.css.map */
