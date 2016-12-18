@@ -2,12 +2,19 @@
     'use strict';
     angular.module('leaflet-overlay')
         .controller('homeCtrl', ["$scope", "$log", "leafletData", "leafletBoundsHelpers", function($scope, $log, leafletData, leafletBoundsHelpers) {
-            var divIcon = {
-                type: 'div',
-                iconSize: [500, 300],
-                popupAnchor: [0, 0],
-                html: '<img src="image/test.jpg" style="width:100%;"/>',
-            };
+            $scope.currentMarker = {
+                lat: 52.52,
+                lng: 13.40,
+                focus: false,
+                icon: {
+                    type: 'div',
+                    iconSize: [500, 335],
+                    popupAnchor: [0, 0],
+                    html: '<img src="image/test.jpg" style="width:100%;"/>',
+                },
+                draggable: true,
+                iconAngle: 0,
+            }
             angular.extend($scope, {
                 berlin: {
                     lat: 52.52,
@@ -15,13 +22,7 @@
                     zoom: 14
                 },
                 markers: {
-                    m1: {
-                        lat: 52.52,
-                        lng: 13.40,
-                        focus: false,
-                        icon: divIcon,
-                        draggable: true
-                    }
+                    m1: $scope.currentMarker
                 },
                 layers: {
                     baselayers: {
