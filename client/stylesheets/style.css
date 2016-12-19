@@ -22,5 +22,11 @@ html, body {
 
 .control-panel {
   padding: 1em; }
+  .control-panel .image-list {
+    border: 1px solid grey;
+    padding: 0.8em;
+    margin-bottom: 1em; }
+    .control-panel .image-list .icon {
+      cursor: pointer; }
 
 /*# sourceMappingURL=style.css.map */

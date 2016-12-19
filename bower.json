@@ -19,6 +19,7 @@
     "angular-ui-router": "ui-router#^0.3.2",
     "ui-leaflet": "https://github.com/angular-ui/ui-leaflet.git#^2.0.0",
     "angular-bootstrap": "^2.3.1",
-    "leaflet-plugins": "v2"
+    "leaflet-plugins": "v2",
+    "Ionicons": "ionicons#^2.0.1"
   }
 }
