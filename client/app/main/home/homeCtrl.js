@@ -2,19 +2,6 @@
     'use strict';
     angular.module('leaflet-overlay')
         .controller('homeCtrl', ["$scope", "$log", "leafletData", "leafletBoundsHelpers", function($scope, $log, leafletData, leafletBoundsHelpers) {
-            $scope.currentMarker = {
-                lat: 52.52,
-                lng: 13.40,
-                focus: false,
-                icon: {
-                    type: 'div',
-                    iconSize: [500, 335],
-                    popupAnchor: [0, 0],
-                    html: '<img src="image/test.jpg" style="width:100%;"/>',
-                },
-                draggable: true,
-                iconAngle: 0,
-            }
             angular.extend($scope, {
                 berlin: {
                     lat: 52.52,
@@ -22,7 +9,36 @@
                     zoom: 14
                 },
                 markers: {
-                    m1: $scope.currentMarker
+                    m1: {
+                        name: "Back to the Basics",
+                        opacity: 1,
+                        lat: 52.52,
+                        lng: 13.37,
+                        focus: false,
+                        icon: {
+                            type: 'div',
+                            iconSize: [500, 335],
+                            popupAnchor: [0, 0],
+                            html: '<img src="image/test.jpg" style="width:100%;"/>',
+                        },
+                        draggable: true,
+                        iconAngle: 0,
+                    },
+                    m2: {
+                        name: "Cyclopean",
+                        opacity: 1,
+                        lat: 52.52,
+                        lng: 13.43,
+                        focus: false,
+                        icon: {
+                            type: 'div',
+                            iconSize: [500, 250],
+                            popupAnchor: [0, 0],
+                            html: '<img src="image/test2.jpg" style="width:100%;"/>',
+                        },
+                        draggable: true,
+                        iconAngle: 0,
+                    },
                 },
                 layers: {
                     baselayers: {
@@ -44,6 +60,15 @@
                     }
                 }
             });
+            $scope.showGeoCoord = function(lat, lng) {
+                console.log('lat, lng:', lat, lng);
+                return lat.toFixed(3) + ', ' + lng.toFixed(3)
+            }
 
+            $scope.toggleMarker = function(marker) {
+                //nagate everything;
+                marker.draggable = !marker.draggable;
+                marker.opacity ? marker.opacity = 0 : marker.opacity = 1;
+            }
         }])
 })();

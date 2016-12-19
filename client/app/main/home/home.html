@@ -3,13 +3,13 @@
         <div class="control-panel">
             <div class="panel panel-default">
                 <div class="panel-heading">My Images</div>
-                <div class="panel-body">
-                    <div class="image-list">
+                <div class="panel-body" >
+                    <div class="image-list" ng-repeat="marker in markers">
                         <p>
-                            <i class="icon ion-record pull-right" style="color:limegreen"></i> Name: ASDASd
+                            <i class="icon ion-record pull-right" ng-class="{'online':marker.opacity}" ng-click="toggleMarker(marker)"></i> Name: {{::marker.name}}
                         </p>
                         <p>
-                            GeoC: 52.34, 78.59
+                            GeoC: {{showGeoCoord(marker.lat,marker.lng)}}
                         </p>
                         <button class="btn btn-info btn-xs">Edit</button>
                         <button class="btn btn-warning btn-xs">Share</button>
