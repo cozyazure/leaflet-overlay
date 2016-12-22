@@ -2,8 +2,15 @@
     <div class="col-md-2 hack-col">
         <div class="control-panel">
             <div class="panel panel-default">
-                <div class="panel-heading">My Images</div>
-                <div class="panel-body" >
+                <div class="panel-heading">
+                    My Images
+                    <div class="btn btn-xs btn-primary pull-right" type="file" ngf-select="uploadFiles($file, $invalidFiles)" accept="image/*" ngf-max-size="2MB">
+                        Upload
+                    <i class="ion ion-android-upload pull-right" style="font-size:1.5em; margin-left:0.3em;"  ></i>
+                        
+                    </div>
+                </div>
+                <div class="panel-body">
                     <div class="image-list" ng-repeat="marker in markers">
                         <p>
                             <!--<i class="icon ion-record pull-right" ng-class="{'online':marker.opacity}" ng-click="toggleMarker(marker)"></i> Name: {{::marker.name}}-->
@@ -17,6 +24,8 @@
                     </div>
                 </div>
             </div>
+
+
             <div class="panel panel-default">
                 <div class="panel-heading">Shared Images</div>
                 <div class="panel-body">

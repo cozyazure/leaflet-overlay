@@ -1,7 +1,7 @@
 (() => {
     'use strict';
     angular.module('leaflet-overlay')
-        .controller('homeCtrl', ["$scope", "$log", "leafletData", "leafletBoundsHelpers", function($scope, $log, leafletData, leafletBoundsHelpers) {
+        .controller('homeCtrl', ["$scope", "$log", "leafletData", "leafletBoundsHelpers", 'Upload', function($scope, $log, leafletData, leafletBoundsHelpers, Upload) {
             let originalZoomLevel = 14;
             angular.extend($scope, {
                 center: {
@@ -24,7 +24,7 @@
                             html: '<img src="image/test.jpg" style="width:100%;"/>',
                         },
                         draggable: true,
-                        online:true,
+                        online: true,
                         iconAngle: 0,
                     },
                     m2: {
@@ -41,7 +41,7 @@
                             html: '<img src="image/test2.jpg" style="width:100%;"/>',
                         },
                         draggable: true,
-                        online:true,
+                        online: true,
                         iconAngle: 0,
                     },
                 },
@@ -81,9 +81,32 @@
                     marker.icon.iconSize.forEach((latlong, index) => {
                         //google maps scales twice for evey zoom
                         //http://gis.stackexchange.com/questions/7430/what-ratio-scales-do-google-maps-zoom-levels-correspond-to
-                        marker.icon.iconSize[index] = marker.icon.oriIconSize[index] * Math.pow(2,zoomindex); 
+                        marker.icon.iconSize[index] = marker.icon.oriIconSize[index] * Math.pow(2, zoomindex);
                     })
                 })
             });
+
+            $scope.uploadFiles = function(file, errFiles) {
+                $scope.f = file;
+                $scope.errFile = errFiles && errFiles[0];
+                if (file) {
+                    file.upload = Upload.upload({
+                        url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
+                        data: { file: file }
+                    });
+
+                    file.upload.then(function(response) {
+                        $timeout(function() {
+                            file.result = response.data;
+                        });
+                    }, function(response) {
+                        if (response.status > 0)
+                            $scope.errorMsg = response.status + ': ' + response.data;
+                    }, function(evt) {
+                        file.progress = Math.min(100, parseInt(100.0 *
+                            evt.loaded / evt.total));
+                    });
+                }
+            }
         }])
 })();
