@@ -91,14 +91,13 @@
                 $scope.errFile = errFiles && errFiles[0];
                 if (file) {
                     file.upload = Upload.upload({
-                        url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
+                        url: '/api/upload',
                         data: { file: file }
                     });
 
                     file.upload.then(function(response) {
-                        $timeout(function() {
-                            file.result = response.data;
-                        });
+                        console.log('response.data',response.data);
+                        file.result = response.data;
                     }, function(response) {
                         if (response.status > 0)
                             $scope.errorMsg = response.status + ': ' + response.data;

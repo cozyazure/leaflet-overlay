@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');
 
 app.set('views', path.join(__dirname, 'client'));
 app.engine('html', require('ejs').renderFile);
@@ -11,7 +12,7 @@ app.use(express.static('./client'));
 //set up 
 app.use(bodyParser.urlencoded({'extended': 'true'})); // parse application/x-www-form-urlencoded
 app.use(bodyParser.json());
-
+app.use(fileUpload());
 // call routes.js that manage controllers
 require('./routes')(app);
 
