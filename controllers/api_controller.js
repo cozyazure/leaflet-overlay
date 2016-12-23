@@ -1,15 +1,19 @@
 'use strict';
 
 var express = require('express');
+const server = express();
 var router = express.Router();
 const path = require('path');
 var imagefilepathname = path.join(__dirname, 'imageupload');
+
+const db = require('../config/db_connection')[server.get('env')];
+
 router.get('/', (req, res, next) => {
     //todo, just mock an API endpoint
     res.json({ "JonSnow": "You know nothing" })
 })
 
-router.post('/upload', function(req, res) {
+router.post('/upload', function(req, res,next) {
     var sampleFile;
     if (!req.files) {
         res.send('No files were uploaded.');
@@ -17,14 +21,15 @@ router.post('/upload', function(req, res) {
     }
 
     var f = req.files;
-    res.send('Actually can upload');
-    f.file.mv(imagefilepathname, function(err) {
-        if (err) {
-            console.log('error', err);
-            // res.status(500).send(err);
-        } else {
-            res.send('File uploaded!');
-        }
-    });
+    db.one('INSERT INTO leafletimage (imageName,imageByte) VALUES (${name},${data}) RETURNING *', f.file)
+        .then(function(result) {
+            console.log('upload succeed');
+            res.json({
+                "Message":'succeeded'
+            })
+        }).then(function(error) {
+            console.log('upload error');
+            res.json('upload error');
+        })
 });
 module.exports = router;
