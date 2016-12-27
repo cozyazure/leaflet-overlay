@@ -23,6 +23,18 @@ $ npm install
 $ bower install
 ```
 
+### Init the database
+Run the following command to init the database schema. Note that this will drop the current database, if it exists.
+
+```bash
+$ psql -f config/initdb.sql
+```
+Afterwhich, you would want to set the password at `config/db_connection.js` to your own PostgreSQL password.
+
+```js
+var devDbPassword = "password"; //change to your own password
+```
+
 ### Run the server in development mode
 ```bash
 $ npm run dev
