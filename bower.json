@@ -14,7 +14,7 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "^1.6.0",
+    "angular": "1.5.9",
     "bootstrap-css-only": "^3.3.7",
     "angular-ui-router": "ui-router#^0.3.2",
     "ui-leaflet": "https://github.com/angular-ui/ui-leaflet.git#^2.0.0",

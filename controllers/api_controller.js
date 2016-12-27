@@ -13,23 +13,14 @@ router.get('/', (req, res, next) => {
     res.json({ "JonSnow": "You know nothing" })
 })
 
-router.post('/upload', function(req, res,next) {
-    var sampleFile;
-    if (!req.files) {
-        res.send('No files were uploaded.');
-        return;
-    }
-
-    var f = req.files;
-    db.one('INSERT INTO leafletimage (imageName,imageByte) VALUES (${name},${data}) RETURNING *', f.file)
-        .then(function(result) {
-            console.log('upload succeed');
-            res.json({
-                "Message":'succeeded'
-            })
-        }).then(function(error) {
-            console.log('upload error');
-            res.json('upload error');
-        })
-});
+router.post('/uploadMarkers',function(req,res,next){
+    db.one('INSERT INTO markers(owner,imagename,opacity,lat,lng,icon,draggable,isonline,iconangle,sharewith) '+
+    'VALUES (${owner},${imagename},${opacity}::decimal,${lat},${lng},${icon},${draggable},${isonline},${iconangle},${sharewith}::text[])' + 
+     'RETURNING *',req.body)
+     .then(function(result){
+         return res.json(result);
+     },function(error){
+         return res.status(500).json({"Error":"DB Error"});
+     })
+})
 module.exports = router;

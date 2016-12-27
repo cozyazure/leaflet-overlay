@@ -13,8 +13,7 @@
                 <div class="panel-body">
                     <div class="image-list" ng-repeat="marker in markers">
                         <p>
-                            <!--<i class="icon ion-record pull-right" ng-class="{'online':marker.opacity}" ng-click="toggleMarker(marker)"></i> Name: {{::marker.name}}-->
-                            <span><input type="checkbox" class="pull-right" ng-model="marker.online" ng-click="toggleMarker(marker)"></span> Name: {{::marker.name}}
+                            <span><input type="checkbox" class="pull-right" ng-model="marker.online" ng-click="toggleMarker(marker)"></span> Name: {{::marker.imageName}}
                         </p>
                         <p>
                             GeoC: {{showGeoCoord(marker.lat,marker.lng)}}

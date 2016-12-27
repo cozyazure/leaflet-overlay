@@ -1,7 +1,7 @@
 (() => {
     'use strict';
     angular.module('leaflet-overlay')
-        .controller('homeCtrl', ["$scope", "$log", "leafletData", "leafletBoundsHelpers", 'Upload', function($scope, $log, leafletData, leafletBoundsHelpers, Upload) {
+        .controller('homeCtrl', ["$scope", "$log", "leafletData", "leafletBoundsHelpers", 'Upload', '$http','$q', function($scope, $log, leafletData, leafletBoundsHelpers, Upload, $http, $q) {
             let originalZoomLevel = 14;
             angular.extend($scope, {
                 center: {
@@ -9,42 +9,7 @@
                     lng: 13.40,
                     zoom: originalZoomLevel
                 },
-                markers: {
-                    m1: {
-                        name: "Back to the Basics",
-                        opacity: 1,
-                        lat: 52.52,
-                        lng: 13.37,
-                        focus: false,
-                        icon: {
-                            type: 'div',
-                            iconSize: [500, 335],
-                            oriIconSize: [500, 335],
-                            popupAnchor: [0, 0],
-                            html: '<img src="image/test.jpg" style="width:100%;"/>',
-                        },
-                        draggable: true,
-                        online: true,
-                        iconAngle: 0,
-                    },
-                    m2: {
-                        name: "Cyclopean",
-                        opacity: 1,
-                        lat: 52.52,
-                        lng: 13.43,
-                        focus: false,
-                        icon: {
-                            type: 'div',
-                            iconSize: [500, 250],
-                            oriIconSize: [500, 250],
-                            popupAnchor: [0, 0],
-                            html: '<img src="image/test2.jpg" style="width:100%;"/>',
-                        },
-                        draggable: true,
-                        online: true,
-                        iconAngle: 0,
-                    },
-                },
+                markers: [],
                 layers: {
                     baselayers: {
                         googleTerrain: {
@@ -71,7 +36,6 @@
 
             $scope.toggleMarker = function(marker) {
                 //negate everything;
-                marker.draggable = !marker.draggable;
                 marker.opacity ? marker.opacity = 0 : marker.opacity = 1;
             }
 
@@ -90,22 +54,48 @@
                 $scope.f = file;
                 $scope.errFile = errFiles && errFiles[0];
                 if (file) {
-                    file.upload = Upload.upload({
-                        url: '/api/upload',
-                        data: { file: file }
-                    });
+                    $q.all([
+                        Upload.imageDimensions(file),
+                        Upload.base64DataUrl(file)
+                    ]).then(function(responses) {
+                        var dimension = responses[0];
+                        var dataurl = responses[1];
+                        var newMarker = ConstructMarker('traverseAI',file.name, $scope.center.lat, $scope.center.lng, dimension, dataurl);
+                        //upload marker to database;
+                        
+                        $http.post('/api/uploadMarkers',newMarker).then(function(response){
+                            console.log('response.data',response.data);
+                            $scope.markers.push(response.data);
+                        },function(error){
+                            console.log('error',error);
+                        });
+                    }, function(error) {
+                        $log.error;
+                    })
 
-                    file.upload.then(function(response) {
-                        console.log('response.data',response.data);
-                        file.result = response.data;
-                    }, function(response) {
-                        if (response.status > 0)
-                            $scope.errorMsg = response.status + ': ' + response.data;
-                    }, function(evt) {
-                        file.progress = Math.min(100, parseInt(100.0 *
-                            evt.loaded / evt.total));
-                    });
                 }
             }
         }])
 })();
+
+
+function ConstructMarker(ownerName,filename, lat, lng, dimension, dataurl) {
+    return {
+        owner:ownerName,
+        imagename: filename,
+        opacity: 1,
+        lat: lat,
+        lng: lng,
+        icon: {
+            type: 'div',
+            iconSize: [dimension.width, dimension.height],
+            oriIconSize: [dimension.width, dimension.height],
+            popupAnchor: [0, 0],
+            html: '<img src="' + dataurl + '" style="width:100%;"/>',
+        },
+        draggable: false,
+        isonline: true,
+        iconangle: 0,
+        sharewith:[]
+    }
+}
