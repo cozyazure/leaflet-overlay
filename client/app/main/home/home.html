@@ -13,7 +13,7 @@
                 <div class="panel-body">
                     <div class="image-list" ng-repeat="marker in markers">
                         <p>
-                            <span><input type="checkbox" class="pull-right" ng-model="marker.online" ng-click="toggleMarker(marker)"></span> Name: {{::marker.imageName}}
+                            <span><input type="checkbox" class="pull-right" ng-model="marker.isonline" ng-click="toggleMarker(marker)"></span> Name: {{::marker.imageName}}
                         </p>
                         <p>
                             GeoC: {{showGeoCoord(marker.lat,marker.lng)}}

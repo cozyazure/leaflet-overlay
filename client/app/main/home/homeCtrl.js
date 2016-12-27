@@ -3,6 +3,7 @@
     angular.module('leaflet-overlay')
         .controller('homeCtrl', ["$scope", "$log", "leafletData", "leafletBoundsHelpers", 'Upload', '$http','$q', function($scope, $log, leafletData, leafletBoundsHelpers, Upload, $http, $q) {
             let originalZoomLevel = 14;
+            let currentUser = "traverseAI"; // be here until user module / session is up
             angular.extend($scope, {
                 center: {
                     lat: 52.52,
@@ -33,7 +34,6 @@
             $scope.showGeoCoord = function(lat, lng) {
                 return lat.toFixed(3) + ', ' + lng.toFixed(3)
             }
-
             $scope.toggleMarker = function(marker) {
                 //negate everything;
                 marker.opacity ? marker.opacity = 0 : marker.opacity = 1;
@@ -60,13 +60,13 @@
                     ]).then(function(responses) {
                         var dimension = responses[0];
                         var dataurl = responses[1];
-                        var newMarker = ConstructMarker('traverseAI',file.name, $scope.center.lat, $scope.center.lng, dimension, dataurl);
+                        var newMarker = ConstructMarker(currentUser,file.name, $scope.center.lat, $scope.center.lng, dimension, dataurl);
                         //upload marker to database;
                         
-                        $http.post('/api/uploadMarkers',newMarker).then(function(response){
+                        $http.post('/api/uploadMarkers',newMarker).then((response)=>{
                             console.log('response.data',response.data);
                             $scope.markers.push(response.data);
-                        },function(error){
+                        },(error)=>{
                             console.log('error',error);
                         });
                     }, function(error) {
@@ -75,6 +75,11 @@
 
                 }
             }
+
+            $http.get('/api/getMarkersByUser/'+currentUser).then((response)=>{
+                $scope.markers = response.data;
+            })
+
         }])
 })();
 
