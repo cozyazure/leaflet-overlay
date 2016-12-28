@@ -13,7 +13,7 @@ router.get('/', (req, res, next) => {
     res.json({ "JonSnow": "You know nothing" })
 })
 
-router.post('/uploadMarkers', (req, res, next) => {
+router.post('/uploadMarker', (req, res, next) => {
     db.one('INSERT INTO markers(owner,imagename,opacity,lat,lng,icon,draggable,isonline,iconangle,sharewith) ' +
             'VALUES (${owner},${imagename},${opacity}::decimal,${lat},${lng},${icon},${draggable},${isonline},${iconangle},${sharewith}::text[])' +
             'RETURNING *', req.body)
@@ -38,6 +38,20 @@ router.get('/getMarkersByUser/:username', (req, res, next) => {
         .catch((error) => {
             ResolveDbError(error, res);
         })
+
+})
+
+router.put('/updateMarkerGeoCoordById', (req, res, next) => {
+    db.one('UPDATE markers SET lat = ${lat}, lng=${lng} WHERE id = ${id} RETURNING *',req.body)
+        .then((result) => {
+            return res.status(200).json(result);
+        })
+        .catch((error) => {
+            ResolveDbError(error, res);
+        })
+})
+
+router.put('/updateMarkerSharedWith', (req, res, next) => {
 
 })
 

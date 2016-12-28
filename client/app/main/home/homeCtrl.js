@@ -41,18 +41,21 @@
             }
 
             $scope.editMarker = (marker) => {
-                if ($scope.currentEditingMarkerId===0) {
+                if ($scope.currentEditingMarkerId === 0) {
                     //proceed only when nobody else is editing
                     $scope.currentEditingMarkerId = marker.id;
                     marker.draggable = true;
-                }else{
+                } else {
                     //show message that current editing
                 }
 
             }
             $scope.saveEditedMarker = (marker) => {
-                marker.draggable = false;
-                $scope.currentEditingMarkerId = 0;
+                apiSvc.updateMarkerGeoCoordById(marker).then((response) => {
+                    marker.draggable = false;
+                    $scope.currentEditingMarkerId = 0;
+                }, (error) => { $log(error) })
+
             }
 
             $scope.$watch("center.zoom", (zoom) => {
@@ -79,9 +82,9 @@
                         var newMarker = ConstructMarker(currentUser, file.name, $scope.center.lat, $scope.center.lng, dimension, dataurl);
 
                         //upload marker to database;
-                        apiSvc.uploadMarkers(newMarker).then((response) => {
+                        apiSvc.uploadMarker(newMarker).then((response) => {
                             var newmarker = response.data;
-                            newmarker.draggable =true;
+                            newmarker.draggable = true;
                             $scope.markers.push(newmarker);
                             $scope.currentEditingMarkerId = newmarker.id;
                         }, (error) => {
