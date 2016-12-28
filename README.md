@@ -8,6 +8,7 @@ You will need the following tools to develop the project.
 1. `nodejs`, of version `v6.9.1` 
 2. `npm`, of version `3.10.8`
 3. `bower`, of version  `1.8.0`
+4. `PostgreSQL`, of version `9.6.1`
 
 ### Clone the project
 ```bash
