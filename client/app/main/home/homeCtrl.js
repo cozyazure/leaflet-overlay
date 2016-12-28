@@ -1,7 +1,7 @@
 (() => {
     'use strict';
     angular.module('leaflet-overlay')
-        .controller('homeCtrl', ["$scope", "$log", "leafletData", "leafletBoundsHelpers", 'Upload', '$http','$q', function($scope, $log, leafletData, leafletBoundsHelpers, Upload, $http, $q) {
+        .controller('homeCtrl', ["$scope", "$log", "leafletData", "leafletBoundsHelpers", 'Upload', 'apiSvc','$q', function($scope, $log, leafletData, leafletBoundsHelpers, Upload, apiSvc, $q) {
             let originalZoomLevel = 14;
             let currentUser = "traverseAI"; // be here until user module / session is up
             angular.extend($scope, {
@@ -61,10 +61,9 @@
                         var dimension = responses[0];
                         var dataurl = responses[1];
                         var newMarker = ConstructMarker(currentUser,file.name, $scope.center.lat, $scope.center.lng, dimension, dataurl);
-                        //upload marker to database;
                         
-                        $http.post('/api/uploadMarkers',newMarker).then((response)=>{
-                            console.log('response.data',response.data);
+                        //upload marker to database;
+                        apiSvc.uploadMarkers(newMarker).then((response)=>{
                             $scope.markers.push(response.data);
                         },(error)=>{
                             console.log('error',error);
@@ -75,10 +74,9 @@
 
                 }
             }
-
-            $http.get('/api/getMarkersByUser/'+currentUser).then((response)=>{
+            apiSvc.getMarkersByUser(currentUser).then((response)=>{
                 $scope.markers = response.data;
-            })
+            });
 
         }])
 })();
