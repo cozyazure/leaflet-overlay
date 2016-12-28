@@ -28,7 +28,7 @@ router.post('/uploadMarkers', (req, res, next) => {
 router.get('/getMarkersByUser/:username', (req, res, next) => {
 
     var SQL = 'SELECT * FROM markers WHERE owner= $1';
-    db.many(SQL, req.params.username).then((result) => {
+    db.manyOrNone(SQL, req.params.username).then((result) => {
             //no matchin results, return 401
             if (result === null) {
                 return res.status(404).json({ "ErrorMessage": "No such key exists" });
@@ -43,7 +43,7 @@ router.get('/getMarkersByUser/:username', (req, res, next) => {
 
 function ResolveDbError(error, resFunc) {
     console.log('DB trx error', error);
-    return resFunc.staus(500).json({
+    return resFunc.status(500).json({
         "ErrorName": error.name,
         "ErrorCode": error.code,
         "ErrorMessage": error.message
