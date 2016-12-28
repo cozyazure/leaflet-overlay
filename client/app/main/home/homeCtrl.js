@@ -4,7 +4,11 @@
         .controller('homeCtrl', ["$scope", "$log", "leafletData", "leafletBoundsHelpers", 'Upload', 'apiSvc', '$q', function($scope, $log, leafletData, leafletBoundsHelpers, Upload, apiSvc, $q) {
             let originalZoomLevel = 14;
             let currentUser = "traverseAI"; // be here until user module / session is up
-            $scope.currentEditingMarkerId = 0;
+            $scope.currentEditingMarker = {
+                id: 0,
+                lat: 0,
+                lng: 0
+            }
             angular.extend($scope, {
                 center: {
                     lat: 52.52,
@@ -41,9 +45,11 @@
             }
 
             $scope.editMarker = (marker) => {
-                if ($scope.currentEditingMarkerId === 0) {
+                if ($scope.currentEditingMarker.id === 0) {
                     //proceed only when nobody else is editing
-                    $scope.currentEditingMarkerId = marker.id;
+                    $scope.currentEditingMarker.id = marker.id;
+                    $scope.currentEditingMarker.lat = marker.lat;
+                    $scope.currentEditingMarker.lng = marker.lng;
                     marker.draggable = true;
                 } else {
                     //show message that current editing
@@ -53,11 +59,18 @@
             $scope.saveEditedMarker = (marker) => {
                 apiSvc.updateMarkerGeoCoordById(marker).then((response) => {
                     marker.draggable = false;
-                    $scope.currentEditingMarkerId = 0;
+                    $scope.currentEditingMarker.id = 0;
+                    $scope.currentEditingMarker.lat = 0;
+                    $scope.currentEditingMarker.lng = 0;
                 }, (error) => { $log(error) })
 
             }
-
+            $scope.discardEditedMarker = (marker) => {
+                marker.draggable = false;
+                marker.lat = $scope.currentEditingMarker.lat;
+                marker.lng = $scope.currentEditingMarker.lng;
+                $scope.currentEditingMarker.id = 0;
+            }
             $scope.$watch("center.zoom", (zoom) => {
                 var zoomindex = zoom - originalZoomLevel;
                 angular.forEach($scope.markers, (marker) => {
@@ -86,7 +99,10 @@
                             var newmarker = response.data;
                             newmarker.draggable = true;
                             $scope.markers.push(newmarker);
-                            $scope.currentEditingMarkerId = newmarker.id;
+                            $scope.markers.sort(function(a, b) { return a.id - b.id });
+                            $scope.currentEditingMarker.id = newmarker.id;
+                            $scope.currentEditingMarker.lat = newmarker.lat;
+                            $scope.currentEditingMarker.lng = newmarker.lng;
                         }, (error) => {
                             console.log('error', error);
                         });
@@ -98,6 +114,7 @@
             }
             apiSvc.getMarkersByUser(currentUser).then((response) => {
                 $scope.markers = response.data;
+                $scope.markers.sort(function(a, b) { return a.id - b.id });
             });
 
         }])

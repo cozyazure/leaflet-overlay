@@ -4,7 +4,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     My Images
-                    <div class="btn btn-xs btn-primary pull-right" type="file" ngf-select="uploadFiles($file, $invalidFiles)" accept="image/*" ngf-max-size="2MB" ng-disabled="currentEditingMarkerId!==0">
+                    <div class="btn btn-xs btn-primary pull-right" type="file" ngf-select="uploadFiles($file, $invalidFiles)" accept="image/*" ngf-max-size="2MB" ng-disabled="currentEditingMarker.id!==0">
                         Upload
                     <i class="ion ion-android-upload pull-right" style="font-size:1.5em; margin-left:0.3em;"  ></i>
                         
@@ -18,8 +18,9 @@
                         <p>
                             GeoC: {{showGeoCoord(marker.lat,marker.lng)}}
                         </p>
-                        <button class="btn btn-info btn-xs" ng-click="editMarker(marker)" ng-disabled="currentEditingMarkerId!==0 && currentEditingMarkerId!=marker.id" ng-show="currentEditingMarkerId!=marker.id" >Edit</button>
-                        <button class="btn btn-info btn-xs" ng-click="saveEditedMarker(marker)" ng-show="currentEditingMarkerId==marker.id">Save</button>
+                        <button class="btn btn-info btn-xs" ng-click="editMarker(marker)" ng-disabled="currentEditingMarker.id!==0 && currentEditingMarker.id!=marker.id" ng-show="currentEditingMarker.id!=marker.id" >Edit</button>
+                        <button class="btn btn-info btn-xs" ng-click="saveEditedMarker(marker)" ng-show="currentEditingMarker.id==marker.id">Save</button>
+                        <button class="btn btn-danger btn-xs" ng-click="discardEditedMarker(marker)" ng-show="currentEditingMarker.id==marker.id">Discard</button>
                         <button class="btn btn-warning btn-xs">Share</button>
                     </div>
                 </div>
